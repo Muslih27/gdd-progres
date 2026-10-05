@@ -53,8 +53,14 @@ module.exports = async (req, res) => {
         st: Array.from({ length: 10 }, (_, i) => (ST.includes(st[i]) ? st[i] : 'Belum')),
         ct: Array.from({ length: 10 }, (_, i) => s(ct[i], 150)),
         kendala: s(b.kendala, 300), target: s(b.target, 300),
-        updated: Date.now(), feedback: prev ? prev.feedback : '', nilai: prev ? prev.nilai : '', pinHash: ph
+        updated: Date.now(), feedback: prev ? prev.feedback : '', nilai: prev ? prev.nilai : '', pinHash: ph,
+        hist: prev && Array.isArray(prev.hist) ? prev.hist.slice() : []
       };
+      const pn = parseInt(rec.pertemuan, 10);
+      if (pn >= 1 && pn <= 99) {
+        const pc = Math.round(rec.st.reduce((n, x) => n + (x === 'Selesai' ? 1 : x === 'Proses' ? 0.5 : 0), 0) * 10);
+        rec.hist = rec.hist.filter(h => h.k !== pn).concat([{ k: pn, p: pc }]).sort((x, y) => x.k - y.k);
+      }
       await redis(['HSET', H, id, JSON.stringify(rec)]);
       return res.json({ ok: true });
     }
