@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"><title>Progres Gim XII RPL</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1220;--cd:#1c2140;--tx:#eef1f8;--mu:#9aa3c7;--ac:#22d3ee;--or:#fb923c;--gr:#4ade80;--bd:#33396a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:'Space Grotesk',Arial,sans-serif;line-height:1.45;padding:20px}
+main{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+h1{margin:0;font-size:32px}p{margin:0}.mu{color:var(--mu)}
+.top{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+button{font:inherit;font-weight:700;background:var(--ac);color:var(--bg);border:0;border-radius:8px;padding:10px 16px;cursor:pointer}
+button.s{background:transparent;color:var(--mu);border:1px solid var(--bd)}button.d{background:var(--or)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{background:var(--cd);border-radius:12px;padding:14px;border-top:5px solid var(--ac)}.stat b{font-size:30px;display:block}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.hd{display:flex;gap:14px;align-items:center;cursor:pointer}.rk{font-size:26px;font-weight:700;color:var(--or);min-width:42px}
+.bar{height:12px;background:var(--bg);border-radius:8px;overflow:hidden;border:1px solid var(--bd)}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--gr))}
+table{width:100%;border-collapse:collapse;font-size:15px}td,th{padding:6px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}th{color:var(--mu);font-size:13px}
+.tg{display:inline-block;padding:2px 10px;border-radius:99px;font-size:13px;font-weight:700;color:var(--bg)}.Belum{background:#6b7399}.Proses{background:var(--or)}.Selesai{background:var(--gr)}
+.tw{overflow-x:auto}.dt{display:none;flex-direction:column;gap:10px}.card.o .dt{display:flex}
+dialog{background:var(--cd);color:var(--tx);border:1px solid var(--bd);border-radius:14px;max-width:760px;width:calc(100% - 24px);padding:20px}dialog::backdrop{background:#000a}
+label{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--mu)}
+input,select,textarea{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:8px;width:100%}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}.fr{display:grid;grid-template-columns:130px 110px 1fr;gap:8px;align-items:center;margin-bottom:6px}
+@media(max-width:560px){.fr{grid-template-columns:1fr}}
+.chg{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}.cr{display:grid;grid-template-columns:minmax(110px,170px) 1fr 44px;gap:6px 8px;align-items:center;font-size:13px;max-height:430px;overflow:auto;margin-top:8px}.cl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cp{text-align:right;color:var(--mu)}.sb{display:flex;height:12px;background:#6b7399;border-radius:8px;overflow:hidden}.sb i{display:block;height:100%}.em{opacity:.6}.fb{display:flex;gap:10px;flex-wrap:wrap}
+button{transition:transform .15s,box-shadow .15s,background .15s,color .15s,border-color .15s}
+button:hover{transform:translateY(-2px);box-shadow:0 6px 16px #0006;background:var(--or);color:var(--bg)}
+button:active{transform:translateY(0);box-shadow:none}
+button.s:hover{background:transparent;color:var(--ac);border-color:var(--ac)}
+button.d:hover{background:#ef4444;color:#fff}
+#gu.on{background:var(--or);color:var(--bg);border-color:var(--or)}
+#gu.on:hover{background:#ef4444;color:#fff;border-color:#ef4444}
+.card{transition:border-color .15s,transform .15s}#list .card:hover{border-color:var(--ac)}
+#gb{display:none;gap:12px;align-items:center;background:linear-gradient(90deg,var(--or),#fbbf24);color:#0f1220;border-radius:12px;padding:12px 16px;font-weight:700;flex-wrap:wrap}
+#gb span{font-weight:500;font-size:14px}
+body.guru #list .card{border-left:6px solid var(--or)}
+body.guru .stat{border-top-color:var(--or)}
+body.guru h1::after{content:" · Mode Guru";color:var(--or);font-size:20px}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#eef1f8;--cd:#ffffff;--tx:#0f1220;--mu:#4a5170;--ac:#0e7490;--or:#c2410c;--gr:#15803d;--bd:#cdd3e8}}
+:root[data-theme="light"]{--bg:#eef1f8;--cd:#ffffff;--tx:#0f1220;--mu:#4a5170;--ac:#0e7490;--or:#c2410c;--gr:#15803d;--bd:#cdd3e8}
+:root[data-theme="light"] #gb,:root:not([data-theme="dark"]) #gb{color:#0f1220}
+:root[data-theme="light"] #gb{background:linear-gradient(90deg,#fb923c,#fbbf24)}
+:root[data-theme="light"] .stat,:root[data-theme="light"] .card,:root[data-theme="light"] dialog{box-shadow:0 1px 4px #0f122214}
+:root[data-theme="light"] button:hover{box-shadow:0 6px 16px #0f122233}
+#ph{display:none}
+@media print{
+@page{size:A4;margin:12mm}
+:root:root:root{--bg:#fff;--cd:#fff;--tx:#000;--mu:#444;--ac:#0e7490;--or:#c2410c;--gr:#15803d;--bd:#bbb}
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:none!important}
+body{background:#fff!important;color:#000;padding:0}
+#ph{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:3px solid #0e7490;padding-bottom:8px;font-size:18px}#ph span{font-size:13px;color:#444}
+.top,#gb,.fb,dialog,button,.dt .g{display:none!important}
+.card{break-inside:avoid;background:#fff!important;border:1px solid #bbb!important;border-left-width:1px!important}
+.cr{max-height:none!important;overflow:visible!important}
+.dt{display:flex!important}
+body.pr-one #stats,body.pr-one #ch,body.pr-one #list .card:not(.pick){display:none!important}
+}
+@keyframes bob{50%{transform:translateY(-4px)}}@keyframes wig{25%{transform:rotate(-12deg) scale(1.15)}75%{transform:rotate(12deg) scale(1.15)}}
+@keyframes pls{0%{box-shadow:0 0 0 0 #4ade8099}100%{box-shadow:0 0 0 14px #4ade8000}}@keyframes up{from{opacity:0;transform:translateY(14px)}}
+@keyframes gr{from{width:0}}@keyframes sh{to{transform:translateX(100%)}}
+.av{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;flex:none;border-radius:50%;background:var(--bg);border:2px solid var(--ac);font-size:30px;animation:bob 3s ease-in-out infinite;cursor:default}
+.av:hover{animation:wig .5s}.av.win{border-color:var(--gr);animation:bob 3s ease-in-out infinite,pls 2s infinite}.em .av{filter:grayscale(.7)}
+#gb .av{width:42px;height:42px;font-size:24px;background:#0f1220;border-color:#0f1220;cursor:pointer}
+.avp{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.avb{font-size:26px;padding:6px;background:var(--bg);color:inherit;border:2px solid var(--bd);border-radius:12px;box-shadow:none}
+.avb.sel{border-color:var(--ac);background:var(--cd);transform:scale(1.08)}.avb:hover{background:var(--cd);color:inherit;box-shadow:none;transform:scale(1.12)}
+.bar i{position:relative;overflow:hidden}.bar i::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,#ffffff55,transparent);transform:translateX(-100%);animation:sh 2.6s infinite}
+body.in0 .bar i{animation:gr .9s ease-out}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+#gate{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;transition:opacity .6s;overflow:auto}#gate.out{opacity:0;pointer-events:none}
+.gc{background:var(--cd);border:1px solid var(--bd);border-radius:18px;padding:24px;max-width:520px;width:100%;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}.gc.sk{animation:shk .4s}
+@keyframes shk{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}@keyframes pop{50%{transform:scale(1.6)}}
+.gl{display:flex;gap:12px;font-size:32px}.lk{filter:grayscale(1);opacity:.5}.lk.on{filter:none;opacity:1;animation:pop .5s}
+.go{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;width:100%}.gopt{font-size:22px;padding:14px;background:var(--bg);color:var(--tx);border:2px solid var(--bd)}.gopt:hover{border-color:var(--ac);background:var(--cd);color:var(--tx)}
+#gtq{font-size:19px;line-height:1.5}#gtq pre{background:var(--bg);padding:10px 16px;border-radius:8px;text-align:left;font-size:16px;display:inline-block;margin:8px 0}body.gl{overflow:hidden}
+@media print{#gate{display:none!important}}
+@keyframes snap{0%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--r)) scale(.6)}70%{opacity:1;transform:translate(0,0) rotate(0) scale(1.06)}80%{box-shadow:0 0 0 4px var(--ac)}88%{transform:scale(.98)}100%{opacity:1;transform:none}}
+.pz{animation:snap .85s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d)}body.pzb{overflow-x:hidden}
+</style></head><body class="gl"><div id="gate"><div class="gc" id="gtc"><b class="av" style="width:76px;height:76px;font-size:44px">📷</b><h2 style="margin:0;color:var(--ac)">Gerbang Gerakan</h2><p class="mu" style="font-size:14px">Tunjukkan satu gerakan ke kamera untuk membuka papan progres. Video hanya diproses di perangkatmu, tidak dikirim atau disimpan.</p><div id="gte" style="font-size:72px;line-height:1"></div><p id="gtt" style="font-size:20px;font-weight:700"></p><div id="gtw" style="display:none;position:relative;width:100%;max-width:360px;transform:scaleX(-1)"><video id="gtv" playsinline muted style="display:block;width:100%;border-radius:12px;background:#000"></video><canvas id="gtd" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas></div><div id="gsw" style="display:none;width:100%;max-width:320px;height:180px;position:relative;background:var(--bg);border:2px dashed var(--bd);border-radius:16px;overflow:hidden;touch-action:none"><div id="gsf" style="position:absolute;font-size:34px;line-height:1;width:40px;text-align:center">🏁</div><div id="gso" style="position:absolute;font-size:44px;line-height:1;width:56px;height:56px;display:flex;align-items:center;justify-content:center;cursor:grab;user-select:none;touch-action:none"></div></div><div class="bar" style="width:100%"><i id="gtb" style="width:0;transition:width .15s"></i></div><p id="gtm" style="min-height:24px;font-weight:700"></p><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><button id="gtg">📷 Aktifkan kamera</button><button class="s" id="gts">🔄 Ganti gerakan</button><button class="s" id="gtk" style="display:none">👆 Pakai swipe (kamera bermasalah)</button></div></div></div><main>
+<div id="ph"><b>Laporan Progres Pengembangan Gim · XII RPL</b><span id="pd"></span></div>
+<div id="gb"><b id="gav" class="av" title="Klik untuk ganti karakter guru">🧑‍🏫</b> Mode guru aktif <span>Klik kartu siswa untuk menilai, mengoreksi status, reset PIN, atau menghapus data.</span><button class="s" id="ex" style="margin-left:auto;color:#0f1220;border-color:#0f1220">⬇ Ekspor CSV</button></div>
+<div class="top"><div><h1>🎮 Progres Gim XII RPL</h1><p class="mu">Papan progres semua siswa · berdasarkan Mini GDD · diperbarui otomatis</p></div>
+<div style="display:flex;gap:8px"><button class="s" id="lp">📄 Laporan PDF</button><button class="s" id="th"></button><button class="s" id="gu">Mode guru</button><button id="isi">Isi / perbarui progresku</button></div></div>
+<div class="stats" id="stats"></div><div class="chg" id="ch"></div><div class="fb"><input id="q" placeholder="Cari nama siswa…" style="max-width:300px"><select id="fl" style="max-width:220px"><option value="">Semua siswa</option><option value="belum">Belum mengisi</option><option value="jalan">Sedang berjalan</option><option value="100">Sudah 100%</option></select></div><div id="list" style="display:flex;flex-direction:column;gap:12px"></div>
+
+<dialog id="dlg"><form method="dialog" id="f" style="display:flex;flex-direction:column;gap:12px">
+<h2 style="margin:0;color:var(--ac)">Progres Pengembangan Gim</h2>
+<p class="mu" style="font-size:14px">Semua isian ini tampil di papan progres. PIN (4–6 angka) dipakai agar hanya kamu yang bisa mengubah datamu.</p>
+<div class="g"><label>Nama<select id="nm" required><option value="">Pilih namamu</option><option>Achmad Pauzi</option><option>Akbar Rizky</option><option>Alfharezy Ginanza</option><option>Alifian Banyu Adi Sucipto</option><option>Bima Saputra</option><option>Bunga Fathia Ferrylla</option><option>Fabian Absyar Noviyanto</option><option>Fadlan Alrafi Kurniawan</option><option>Farizky Adrian</option><option>Gilang Noverykho</option><option>Katong Rohullah Ajienegoro</option><option>Muhamad Zacky Afghan</option><option>Muhammad Aldo Alfiansyah</option><option>Muhammad Evans Fauzan</option><option>Muhammad Haekal Jaelani</option><option>Muhammad Rafan Rizqiansyah</option><option>Nail Andrean Sumadi</option><option>Najwa Salwa Abhista</option><option>Putra Ardiansyah</option><option>Putra Bagja Wardhana</option><option>Radika Agus Pratama</option><option>Raffi Pasha Islami</option><option>Rafi Ahmad Sahroni</option><option>Revan Putra Aditya</option><option>Rio Cahya Fajar</option><option>Saputra</option><option>Sapwan Al Bukhori</option><option>Shafwan Auli Putra</option><option>Tania Maudunah</option><option>Tiara Septya Ramadany</option></select></label><label>Kelas<input id="kl" value="XII RPL" readonly></label><label>PIN<input id="pin" type="password" inputmode="numeric" maxlength="6" required></label>
+<label>Judul gim<input id="gm" maxlength="60"></label><label>Link demo / gim (opsional)<input id="lk" maxlength="200" placeholder="https://…"></label><label>Pertemuan ke- (angka, untuk grafik garis)<input id="pt" inputmode="numeric" maxlength="3"></label></div>
+<div id="rem" class="mu" style="font-size:14px"></div><div id="mine"></div><div><p class="mu" style="font-size:14px">Pilih karaktermu</p><div id="avp" class="avp"></div></div><div id="pr"></div>
+<div class="g"><label>Kendala utama<textarea id="kd" maxlength="300"></textarea></label><label>Target pertemuan berikutnya<textarea id="tg" maxlength="300"></textarea></label></div>
+<label style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="rm" style="width:auto"> Ingat namaku di perangkat ini (PIN tidak disimpan)</label><p id="er" style="color:var(--or)"></p>
+<div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" class="s" id="bt">Batal</button><button type="button" id="sv">Simpan</button></div></form></dialog>
+<dialog id="gdlg" style="max-width:380px"><div style="display:flex;flex-direction:column;gap:12px"><h2 style="margin:0;color:var(--ac);font-size:20px">Masuk Mode Guru</h2><label>Kunci guru<input id="gk" type="password" autocomplete="off"></label><p id="ge" style="color:var(--or);font-size:14px"></p><div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" class="s" id="gcl">Batal</button><button type="button" id="gok">Masuk</button></div></div></dialog>
+</main><script>
+var P=["Game Overview","Story & Concept","Gameplay","Mechanics 1","Mechanics 2","Mechanics 3","Character","Level & Objective","UI / HUD","Art & Audio"];
+var $=function(i){return document.getElementById(i)},D=[],GK=sessionStorage.getItem("gk")||"";
+function esc(t){var d=document.createElement("div");d.textContent=t==null?"":t;return d.innerHTML}
+function pct(o){var n=0;o.st.forEach(function(x){n+=x==="Selesai"?1:x==="Proses"?.5:0});return Math.round(n*10)}
+function ago(t){var m=Math.round((Date.now()-t)/6e4);return m<1?"baru saja":m<60?m+" mnt lalu":m<1440?Math.round(m/60)+" jam lalu":Math.round(m/1440)+" hari lalu"}
+function api(m,b){return fetch("/api/progress",{method:m,headers:{"Content-Type":"application/json"},body:b?JSON.stringify(b):undefined}).then(function(r){return r.text().then(function(t){var j;try{j=JSON.parse(t)}catch(e){throw new Error("API belum aktif. Pastikan situs sudah di-deploy ke Vercel (folder api terbaca) dan database Upstash terhubung.")}if(!r.ok)throw new Error(j.error||"Gagal");return j})})}
+var NM=[].slice.call($("nm").options).slice(1).map(function(o){return o.value});
+function all(){var m={};D.forEach(function(o){m[o.name]=1});var L=D.slice();NM.forEach(function(n){if(!m[n])L.push({name:n,kelas:"XII RPL",empty:true,st:P.map(function(){return"Belum"}),ct:[],updated:0,id:""})});return L}
+function lineSvg(pts){if(!pts.length)return'<p class="mu" style="font-size:13px">Belum ada riwayat. Isi kolom "Pertemuan ke-" saat menyimpan progres.</p>';
+ var W=400,H=170,L=34,B=26,T=14,R=14,n=pts.length,iw=W-L-R,ih=H-T-B;
+ function X(i){return L+(n===1?iw/2:i*iw/(n-1))}function Y(v){return T+ih-v*ih/100}
+ var g=[0,50,100].map(function(v){return'<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" style="stroke:var(--bd)"/><text x="'+(L-6)+'" y="'+(Y(v)+4)+'" text-anchor="end" font-size="11" style="fill:var(--mu)">'+v+"</text>"}).join("");
+ var ln=pts.map(function(q,i){return X(i)+","+Y(q.y)}).join(" ");
+ var dots=pts.map(function(q,i){return'<circle cx="'+X(i)+'" cy="'+Y(q.y)+'" r="4.5" style="fill:var(--ac)"/><text x="'+X(i)+'" y="'+(Y(q.y)-9)+'" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--tx)">'+q.y+'</text><text x="'+X(i)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" style="fill:var(--mu)">P'+q.x+"</text>"}).join("");
+ return'<svg viewBox="0 0 '+W+" "+H+'" style="width:100%;height:auto">'+g+(n>1?'<polyline points="'+ln+'" fill="none" stroke-width="3" style="stroke:var(--ac)"/>':"")+dots+"</svg>"}
+function classLine(){var xs=[];D.forEach(function(o){(o.hist||[]).forEach(function(h){if(xs.indexOf(h.k)<0)xs.push(h.k)})});xs.sort(function(a,b){return a-b});
+ return xs.map(function(x){var v=[];D.forEach(function(o){var l=null;(o.hist||[]).forEach(function(h){if(h.k<=x)l=h});if(l)v.push(l.p)});return{x:x,y:v.length?Math.round(v.reduce(function(a,b){return a+b},0)/v.length):0}})}
+var ST=["Belum","Proses","Selesai"],RB=[["Kelengkapan GDD",30],["Kejelasan konsep",25],["Gameplay & Mechanics",20],["Kreativitas",15],["Kemandirian & presentasi",10]];
+var AVS=["🧙","🥷","🤖","👾","🐉","🦊","🐱","🚀","🦸","🧝","🐼","🦄"],AN=["Penyihir","Ninja","Robot","Alien Pixel","Naga","Rubah","Kucing","Roket","Superhero","Peri","Panda","Unicorn"],GAV=["🧑‍🏫","🦉","🧙","🦸","🐲","🤖"],SEL=0;
+function dh(n){var h=0;for(var i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))%997;return h%12}
+function av(o){return AVS[o.avatar?+o.avatar.slice(1):dh(o.name)]||AVS[0]}
+function avRow(o){var c=o.avatar?+o.avatar.slice(1):dh(o.name);return'<div><p class="mu" style="font-size:13px">Karakter siswa (guru bisa mengganti):</p><div style="display:flex;gap:6px;flex-wrap:wrap">'+AVS.map(function(e,i){return'<button type="button" class="avb'+(i===c?" sel":"")+'" style="font-size:20px;padding:4px 8px" data-a="av" data-i="'+i+'" data-id="'+o.id+'" title="'+AN[i]+'">'+e+"</button>"}).join("")+"</div></div>"}
+function drawAv(){$("avp").innerHTML=AVS.map(function(e,i){return'<button type="button" class="avb'+(i===SEL?" sel":"")+'" data-i="'+i+'" title="'+AN[i]+'">'+e+"</button>"}).join("")}
+function fbk(o){var c=(o.gc||[]),r=(o.rub||[]),hr=r.some(function(x){return x>0});if(!o.feedback&&!o.nilai&&!hr&&!c.some(Boolean))return"";return'<div class="card" style="border-left:6px solid var(--gr)"><b>💬 Penilaian & umpan balik guru</b>'+(o.nilai?'<p style="font-size:20px">Nilai: <b>'+esc(o.nilai)+"</b> / 100</p>":"")+(hr?'<p class="mu" style="font-size:13px">'+RB.map(function(x,i){return x[0]+": "+(r[i]||0)+"/"+x[1]}).join(" · ")+"</p>":"")+(o.feedback?"<p>"+esc(o.feedback)+"</p>":"")+P.map(function(nm,k){return c[k]?'<p style="font-size:14px"><b>'+nm+":</b> "+esc(c[k])+"</p>":""}).join("")+"</div>"}
+function escA(t){return esc(t).replace(/"/g,"&quot;").replace(/'/g,"&#39;")}
+function bdg(o){var b=[],p=pct(o),k=(o.hist||[]).map(function(h){return h.k});if(p>0)b.push(["🌱","Mulai"]);if(p>=50)b.push(["⭐","Setengah jalan"]);if(p===100)b.push(["🏆","Tuntas"]);for(var i=0;i<k.length;i++)if(k.indexOf(k[i]+1)>-1&&k.indexOf(k[i]+2)>-1){b.push(["🔥","Konsisten 3 pertemuan"]);break}if(o.link)b.push(["🔗","Ada link demo"]);return b}
+function render(){
+ var L=all();L.sort(function(a,b){if(!!a.empty!==!!b.empty)return a.empty?1:-1;if(a.empty)return a.name.localeCompare(b.name);return pct(b)-pct(a)||b.updated-a.updated});
+ var r=0;L.forEach(function(o){o.rk=o.empty?"–":"#"+(++r)});
+ var n=D.length,avg=n?Math.round(D.reduce(function(s,o){return s+pct(o)},0)/n):0,fin=D.filter(function(o){return pct(o)===100}).length,idle=GK?D.filter(function(o){return Date.now()-o.updated>6048e5}).length:0;
+ $("stats").innerHTML='<div class="stat"><b>'+n+'/'+L.length+'</b>siswa sudah mengisi</div><div class="stat" style="border-color:var(--or)"><b>'+avg+'%</b>rata-rata progres</div><div class="stat" style="border-color:var(--gr)"><b>'+fin+'</b>sudah 100%</div><div class="stat" style="border-color:#6b7399"><b>'+(L.length-n)+'</b>belum mengisi</div>'+(GK?'<div class="stat" style="border-color:#ef4444"><b>'+idle+'</b>tidak aktif 7+ hari</div>':"");
+ var c1='<div class="card"><b>Progres per siswa</b><div class="cr">'+L.map(function(o){return'<div class="cl'+(o.empty?" em":"")+'">'+esc(o.name)+'</div><div class="bar"><i style="width:'+pct(o)+'%"></i></div><div class="cp">'+pct(o)+'%</div>'}).join("")+'</div></div>';
+ var c2='<div class="card"><b>Status per bagian GDD</b><p class="mu" style="font-size:13px">Hijau = selesai · oranye = proses · abu-abu = belum (dari siswa yang sudah mengisi)</p><div class="cr" style="grid-template-columns:minmax(100px,130px) 1fr">'+P.map(function(nm,k){var a=0,b=0;D.forEach(function(o){if(o.st[k]==="Selesai")a++;else if(o.st[k]==="Proses")b++});var t=n||1;return'<div class="cl">'+nm+'</div><div><div class="sb"><i style="width:'+a*100/t+'%;background:var(--gr)"></i><i style="width:'+b*100/t+'%;background:var(--or)"></i></div><span class="mu" style="font-size:12px">Selesai '+a+" · Proses "+b+" · Belum "+(n-a-b)+"</span></div>"}).join("")+'</div></div>';
+ var c3='<div class="card"><b>Perkembangan kelas per pertemuan</b><p class="mu" style="font-size:13px">Rata-rata progres siswa pada tiap pertemuan</p>'+lineSvg(classLine())+"</div>";
+ var c4=GK?'<div class="card" style="grid-column:1/-1"><b>Matriks status semua siswa (guru)</b><div class="tw"><table><tr><th>Siswa</th>'+P.map(function(nm,k){return'<th title="'+nm+'">'+(k+1)+"</th>"}).join("")+"</tr>"+L.map(function(o){return"<tr><td>"+esc(o.name)+"</td>"+o.st.map(function(x){return'<td><span class="tg '+x+'" style="padding:2px 8px">'+(x==="Selesai"?"✓":x==="Proses"?"…":"·")+"</span></td>"}).join("")+"</tr>"}).join("")+'</table></div><p class="mu" style="font-size:12px">'+P.map(function(nm,k){return(k+1)+" = "+nm}).join(" · ")+"</p></div>":"";
+ $("ch").innerHTML=c3+c1+c2+c4;
+ var q=$("q").value.trim().toLowerCase(),f=$("fl").value;
+ var V=L.filter(function(o){return(!q||o.name.toLowerCase().indexOf(q)>-1)&&(f==="belum"?o.empty:f==="jalan"?(!o.empty&&pct(o)<100):f==="100"?pct(o)===100:true)});
+ var dr={};document.querySelectorAll("#list textarea,#list input,#list select").forEach(function(e){if(e.id)dr[e.id]=e.value});
+ var open={};document.querySelectorAll(".card.o").forEach(function(c){open[c.dataset.id]=1});
+ if(!V.length){$("list").innerHTML='<div class="card mu">Tidak ada siswa yang cocok.</div>';return}
+ $("list").innerHTML=V.map(function(o){var p=pct(o),key=o.id||o.name,bg=bdg(o),dt;
+  if(o.empty)dt='<p class="mu">Belum mengisi progres.</p>';
+  else{var rows=P.map(function(nm,k){return"<tr><td>"+nm+"</td><td>"+(GK?'<select id="gs'+o.id+"_"+k+'">'+ST.map(function(x){return"<option"+(x===o.st[k]?" selected":"")+">"+x+"</option>"}).join("")+"</select>":'<span class="tg '+o.st[k]+'">'+o.st[k]+"</span>")+"</td><td>"+esc(o.ct[k])+"</td>"+(GK?'<td><input id="gc'+o.id+"_"+k+'" maxlength="150" value="'+escA((o.gc||[])[k]||"")+'" placeholder="Komentar guru"></td>':"")+"</tr>"}).join("");
+   var g=GK?'<div class="g">'+RB.map(function(rb,i){return"<label>"+rb[0]+" (maks "+rb[1]+')<input id="rb'+o.id+i+'" inputmode="numeric" maxlength="2" value="'+escA((o.rub||[])[i]||"")+'"></label>'}).join("")+'</div><label>Umpan balik guru<textarea id="fb'+o.id+'">'+esc(o.feedback)+'</textarea></label><p class="mu" style="font-size:13px">Nilai total: <b>'+esc(o.nilai||"-")+'</b> / 100 (jumlah 5 aspek)</p>'+avRow(o)+'<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button data-a="fb" data-id="'+o.id+'">Simpan penilaian &amp; koreksi</button><input id="rp'+o.id+'" placeholder="PIN baru" maxlength="6" inputmode="numeric" style="max-width:110px"><button class="s" data-a="rp" data-id="'+o.id+'">Reset PIN</button><button class="d" data-a="del" data-id="'+o.id+'">Hapus siswa</button></div>':"";
+   dt=(bg.length?"<p>"+bg.map(function(x){return x[0]+" "+x[1]}).join(" · ")+"</p>":"")+(o.link?'<p><b>Link demo:</b> <a href="'+escA(o.link)+'" target="_blank" rel="noopener noreferrer" style="color:var(--ac)">'+esc(o.link)+"</a></p>":"")+'<div><b style="font-size:14px">Perkembangan progres</b>'+lineSvg((o.hist||[]).map(function(h){return{x:h.k,y:h.p}}))+'</div><div class="tw"><table><tr><th>Bagian GDD</th><th>Status</th><th>Bukti / catatan</th>'+(GK?"<th>Komentar guru</th>":"")+"</tr>"+rows+"</table></div><p><b>Kendala:</b> "+esc(o.kendala||"-")+"</p><p><b>Target berikutnya:</b> "+esc(o.target||"-")+"</p>"+fbk(o)+g+'<div><button class="s" data-a="pdf">📄 Unduh laporan siswa ini (PDF)</button></div>'}
+  return'<div class="card'+(open[key]?" o":"")+(o.empty?" em":"")+'" data-id="'+escA(key)+'"><div class="hd"><div class="rk">'+(o.rk==="#1"?"👑":"")+o.rk+'</div><div class="av'+(pct(o)===100?" win":"")+'">'+av(o)+'</div><div style="flex:1;display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b style="font-size:19px">'+esc(o.name)+" "+bg.map(function(x){return'<span title="'+x[1]+'" style="font-size:16px">'+x[0]+"</span>"}).join("")+'</b><span class="mu" style="font-size:14px">'+(o.empty?"Belum mengisi":esc(o.game||"(belum ada judul)")+" · "+ago(o.updated)+(GK&&Date.now()-o.updated>6048e5?' <b style="color:#ef4444">⚠ tidak aktif</b>':""))+'</span></div><div class="bar"><i style="width:'+p+'%"></i></div></div><b style="font-size:22px;color:var(--ac)">'+p+'%</b></div><div class="dt">'+dt+"</div></div>"}).join("");
+ for(var k in dr){var el=$(k);if(el)el.value=dr[k]}}
+$("q").oninput=render;$("fl").onchange=render;
+function load(){(GK?api("POST",{teacherKey:GK,action:"list"}):api("GET")).then(function(d){D=d;var a=document.activeElement;if(a&&a.closest&&a.closest("#list")&&/^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName))return;render()}).catch(function(e){$("list").innerHTML='<div class="card" style="color:var(--or)">'+esc(e.message)+"</div>"})}
+$("list").onclick=function(e){var t=e.target,id=t.dataset.id;
+ if(t.dataset.a==="av"){api("POST",{teacherKey:GK,action:"avatar",id:id,avatar:"a"+t.dataset.i}).then(load).catch(function(x){alert(x.message)});return}
+ if(t.dataset.a==="pdf"){cetak("pr-one",t.closest(".card"));return}
+ if(t.dataset.a==="fb"){api("POST",{teacherKey:GK,action:"save",id:id,feedback:$("fb"+id).value,rub:RB.map(function(r,i){return $("rb"+id+i).value}),gc:P.map(function(n,k){return $("gc"+id+"_"+k).value}),st:P.map(function(n,k){return $("gs"+id+"_"+k).value})}).then(load).catch(function(x){alert(x.message)});return}
+ if(t.dataset.a==="rp"){api("POST",{teacherKey:GK,action:"resetpin",id:id,newPin:$("rp"+id).value}).then(function(){$("rp"+id).value="";alert("PIN berhasil direset. Beri tahu siswa PIN barunya.")}).catch(function(x){alert(x.message)});return}
+ if(t.dataset.a==="del"){if(confirm("Hapus data siswa ini?"))api("DELETE",{teacherKey:GK,id:id}).then(load).catch(function(x){alert(x.message)});return}
+ if(t.closest("textarea,input,button,table"))return;var c=t.closest(".card");if(c&&c.dataset.id)c.classList.toggle("o")};
+$("pr").innerHTML=P.map(function(n,i){return'<div class="fr"><b style="font-size:14px">'+n+'</b><select id="s'+i+'"><option>Belum</option><option>Proses</option><option>Selesai</option></select><input id="c'+i+'" maxlength="150" placeholder="Bukti / catatan singkat"></div>'}).join("");
+try{localStorage.removeItem("gdd-me");var rn=localStorage.getItem("gdd-nm");if(rn&&NM.indexOf(rn)>-1){$("nm").value=rn;$("rm").checked=true}}catch(e){}
+function fill(){var o=D.filter(function(x){return x.name===$("nm").value})[0]||{};SEL=o.avatar?+o.avatar.slice(1):dh($("nm").value);drawAv();
+ $("gm").value=o.game||"";$("lk").value=o.link||"";$("rem").innerHTML=o.target?"📌 Targetmu sebelumnya: <b>"+esc(o.target)+"</b>":"";$("mine").innerHTML="";$("pt").value=o.pertemuan||"";$("kd").value=o.kendala||"";$("tg").value=o.target||"";
+ P.forEach(function(n,i){$("s"+i).value=(o.st||[])[i]||"Belum";$("c"+i).value=(o.ct||[])[i]||""})}
+$("isi").onclick=function(){$("er").textContent="";fill();$("dlg").showModal()};
+$("nm").onchange=fill;
+$("pin").onchange=function(){var n=$("nm").value,p=$("pin").value;if(!n||p.length<4)return;api("POST",{action:"me",name:n,kelas:$("kl").value,pin:p}).then(function(o){var h="";if(o.feedback||o.nilai||(o.gc||[]).some(Boolean)){h='<div class="card" style="border-left:6px solid var(--gr)"><b>Umpan balik dari guru</b>'+(o.nilai?"<p>Nilai: <b>"+esc(o.nilai)+"</b> / 100</p>":"")+(o.feedback?"<p>"+esc(o.feedback)+"</p>":"")+P.map(function(nm,k){return(o.gc||[])[k]?'<p style="font-size:14px"><b>'+nm+":</b> "+esc(o.gc[k])+"</p>":""}).join("")+"</div>"}$("mine").innerHTML=h;$("er").textContent=""}).catch(function(e){$("mine").innerHTML="";if(e.message!=="Belum ada data")$("er").textContent=e.message})};
+$("ex").onclick=function(){var q=function(v){return'"'+String(v==null?"":v).replace(/"/g,'""')+'"'};var h=["Nama","Kelas","Judul gim","Link","Pertemuan","Progres %"].concat(P).concat(["Kendala","Target","Nilai","Umpan balik","Diperbarui"]);var rows=[h].concat(D.map(function(o){return[o.name,o.kelas,o.game,o.link,o.pertemuan,pct(o)].concat(o.st).concat([o.kendala,o.target,o.nilai,o.feedback,new Date(o.updated).toLocaleString("id-ID")])}));var csv="\ufeff"+rows.map(function(r){return r.map(q).join(",")}).join("\r\n");var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="progres-gim-xii-rpl.csv";a.click()};
+$("bt").onclick=function(){$("dlg").close()};
+$("sv").onclick=function(){var st=[],ct=[];P.forEach(function(n,i){st.push($("s"+i).value);ct.push($("c"+i).value)});
+ var b={name:$("nm").value,kelas:$("kl").value,pin:$("pin").value,game:$("gm").value,link:$("lk").value,pertemuan:$("pt").value,st:st,ct:ct,kendala:$("kd").value,target:$("tg").value,avatar:"a"+SEL};
+ if(b.link&&!/^https?:\/\//i.test(b.link)){$("er").textContent="Link harus diawali http:// atau https://";return}
+ api("POST",b).then(function(){try{if($("rm").checked)localStorage.setItem("gdd-nm",b.name);else localStorage.removeItem("gdd-nm")}catch(e){}$("dlg").close();load()}).catch(function(e){$("er").textContent=e.message})};
+function setG(){document.body.classList.toggle("guru",!!GK);$("gb").style.display=GK?"flex":"none";$("gu").classList.toggle("on",!!GK)}
+$("gu").onclick=function(){if(GK){GK="";sessionStorage.removeItem("gk");$("gu").textContent="Mode guru";setG();load();return}
+ $("gk").value="";$("ge").textContent="";$("gdlg").showModal();$("gk").focus()};
+function masuk(){var k=$("gk").value;if(!k)return;$("gok").disabled=true;
+ api("POST",{teacherKey:k}).then(function(){GK=k;sessionStorage.setItem("gk",k);$("gu").textContent="Keluar mode guru";setG();$("gdlg").close();load()}).catch(function(e){$("ge").textContent=e.message}).then(function(){$("gok").disabled=false})}
+$("gok").onclick=masuk;$("gcl").onclick=function(){$("gdlg").close()};
+$("gk").onkeydown=function(e){if(e.key==="Enter")masuk()};
+if(GK)$("gu").textContent="Keluar mode guru";setG();
+function cetak(m,c){document.body.classList.add(m);if(c)c.classList.add("pick");$("pd").textContent="Dicetak: "+new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});window.print()}
+window.addEventListener("afterprint",function(){document.body.classList.remove("pr-all","pr-one");document.querySelectorAll(".pick").forEach(function(c){c.classList.remove("pick")})});
+$("lp").onclick=function(){cetak("pr-all")};
+function setTh(t){document.documentElement.setAttribute("data-theme",t);$("th").textContent=t==="light"?"🌙 Mode gelap":"☀️ Mode terang";try{localStorage.setItem("gdd-th",t)}catch(e){}}
+(function(){var t=null;try{t=localStorage.getItem("gdd-th")}catch(e){}if(t!=="light"&&t!=="dark")t=window.matchMedia&&matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";setTh(t)})();
+$("th").onclick=function(){setTh(document.documentElement.getAttribute("data-theme")==="light"?"dark":"light")};
+$("avp").onclick=function(e){var b=e.target.closest(".avb");if(b){SEL=+b.dataset.i;drawAv()}};drawAv();
+var gi=0;try{gi=+localStorage.getItem("gdd-gav")||0}catch(e){}
+function gset(){$("gav").textContent=GAV[gi%GAV.length]}gset();
+$("gav").onclick=function(){gi=(gi+1)%GAV.length;gset();try{localStorage.setItem("gdd-gav",gi)}catch(e){}};
+
+var CH=[{k:"h",g:"Open_Palm",e:"✋",t:"Tunjukkan telapak tangan terbuka"},{k:"h",g:"Victory",e:"✌️",t:"Buat gaya peace (dua jari)"},{k:"h",g:"Thumb_Up",e:"👍",t:"Acungkan jempol ke atas"},{k:"h",g:"Pointing_Up",e:"☝️",t:"Tunjuk ke atas dengan satu jari"},{k:"h",g:"Closed_Fist",e:"✊",t:"Kepalkan tanganmu"},{k:"h",g:"ILoveYou",e:"🤟",t:"Gaya \"I love you\" (jempol, telunjuk, kelingking)"},{k:"f",f:"smile",e:"😄",t:"Tersenyum lebar"},{k:"f",f:"open",e:"😮",t:"Buka mulutmu lebar-lebar"},{k:"f",f:"wink",e:"😉",t:"Kedipkan satu mata"},{k:"f",f:"brow",e:"🤨",t:"Naikkan alismu"}];
+var MOD=null,DU=null,CUR=null,STREAM=null,RAF=0,HOLD=0,DONE=false,REC={},LASTT=-1,VB="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14",MU="https://storage.googleapis.com/mediapipe-models/";
+function gmsg(t,c){$("gtm").style.color=c||"var(--tx)";$("gtm").textContent=t}
+function gerr(t){gmsg(t,"var(--or)");$("gtk").style.display="inline-block"}
+function pick(){var c;do{c=CH[Math.floor(Math.random()*CH.length)]}while(c===CUR);CUR=c;HOLD=0;$("gte").textContent=c.e;$("gtt").textContent=c.t;$("gtb").style.width="0"}
+function gstop(){cancelAnimationFrame(RAF);if(STREAM){STREAM.getTracks().forEach(function(t){t.stop()});STREAM=null}$("gtw").style.display="none"}
+function assemble(){var els=[].slice.call(document.querySelectorAll(".top,#stats .stat,#ch .card,.fb")).concat([].slice.call(document.querySelectorAll("#list .card")).slice(0,10));
+ els.forEach(function(e,i){var a=Math.random()<.5?-1:1,b=Math.random()<.5?-1:1;e.style.setProperty("--dx",a*(250+Math.random()*450)+"px");e.style.setProperty("--dy",b*(200+Math.random()*350)+"px");e.style.setProperty("--r",(Math.random()*50-25)+"deg");e.style.setProperty("--d",i*90+"ms");e.classList.add("pz")});
+ setTimeout(function(){els.forEach(function(e){e.classList.remove("pz")})},els.length*90+1500)}
+function gopen(){DONE=true;gstop();gmsg("🎉 Gerbang terbuka!","var(--gr)");$("gtb").style.width="100%";
+ setTimeout(function(){assemble();document.body.classList.add("pzb","in0");$("gate").classList.add("out");document.body.classList.remove("gl");setTimeout(function(){document.body.classList.remove("in0","pzb");$("gate").style.display="none"},4200)},700)}
+async function gmodel(kind){if(REC[kind])return REC[kind];var M=await import(VB+"/vision_bundle.mjs");MOD=M;var fs=await M.FilesetResolver.forVisionTasks(VB+"/wasm");
+ async function mk(d){var o=kind==="h"?{baseOptions:{modelAssetPath:MU+"gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task",delegate:d},runningMode:"VIDEO",numHands:1}:{baseOptions:{modelAssetPath:MU+"face_landmarker/face_landmarker/float16/1/face_landmarker.task",delegate:d},runningMode:"VIDEO",outputFaceBlendshapes:true,numFaces:1};return kind==="h"?M.GestureRecognizer.createFromOptions(fs,o):M.FaceLandmarker.createFromOptions(fs,o)}
+ try{REC[kind]=await mk("GPU")}catch(e){REC[kind]=await mk("CPU")}return REC[kind]}
+function okg(c,r){if(c.k==="h"){var g=r.gestures&&r.gestures[0]&&r.gestures[0][0];return!!g&&g.categoryName===c.g&&g.score>0.6}
+ var bs=r.faceBlendshapes&&r.faceBlendshapes[0];if(!bs)return false;var m={};bs.categories.forEach(function(x){m[x.categoryName]=x.score});
+ var sm=((m.mouthSmileLeft||0)+(m.mouthSmileRight||0))/2,jo=m.jawOpen||0,bl=m.eyeBlinkLeft||0,br=m.eyeBlinkRight||0;
+ if(c.f==="smile")return sm>0.55;if(c.f==="open")return jo>0.5&&sm<0.4;if(c.f==="wink")return Math.max(bl,br)>0.6&&Math.abs(bl-br)>0.4;return(m.browInnerUp||0)>0.55}
+function gdraw(r,ok){var cv=$("gtd"),v=$("gtv");if(!MOD||!v.videoWidth)return;if(cv.width!==v.videoWidth){cv.width=v.videoWidth;cv.height=v.videoHeight;DU=null}
+ var cx=cv.getContext("2d");cx.clearRect(0,0,cv.width,cv.height);if(!DU)DU=new MOD.DrawingUtils(cx);
+ var c1=ok?"#4ade80":"#22d3ee",c2=ok?"#bbf7d0":"#fb923c";
+ (r.landmarks||[]).forEach(function(l){DU.drawConnectors(l,MOD.GestureRecognizer.HAND_CONNECTIONS,{color:c1,lineWidth:3});DU.drawLandmarks(l,{color:c2,fillColor:c2,radius:4,lineWidth:1})});
+ (r.faceLandmarks||[]).forEach(function(l){DU.drawConnectors(l,MOD.FaceLandmarker.FACE_LANDMARKS_CONTOURS,{color:c1,lineWidth:2});DU.drawLandmarks(l,{color:c2,fillColor:c2,radius:1.6,lineWidth:1})})}
+function gloop(){if(DONE||!STREAM)return;var v=$("gtv");
+ if(v.readyState>=2&&v.currentTime!==LASTT){LASTT=v.currentTime;var m=REC[CUR.k];
+  try{var r=CUR.k==="h"?m.recognizeForVideo(v,performance.now()):m.detectForVideo(v,performance.now());var ok=okg(CUR,r);HOLD=ok?HOLD+1:Math.max(0,HOLD-1);gdraw(r,ok)}catch(e){}
+  $("gtb").style.width=Math.min(100,HOLD*100/8)+"%";if(HOLD>=8){gopen();return}}
+ RAF=requestAnimationFrame(gloop)}
+$("gtg").onclick=async function(){if(SWM)swOff();$("gtg").style.display="none";gmsg("Meminta izin kamera…");
+ try{if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw 0;STREAM=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:640,height:480},audio:false});var v=$("gtv");v.srcObject=STREAM;await v.play();$("gtw").style.display="block"}
+ catch(e){gstop();gerr("Kamera tidak bisa dipakai. Izinkan kamera di browser, lalu coba lagi.");$("gtg").style.display="inline-block";return}
+ gmsg("Memuat pengenal gerakan… (pertama kali agak lama)");
+ try{await gmodel(CUR.k)}catch(e){gstop();gerr("Gagal memuat pengenal gerakan. Periksa koneksi internet.");$("gtg").style.display="inline-block";return}
+ gmsg("Tahan gerakanmu sebentar!");LASTT=-1;gloop()};
+$("gts").onclick=async function(){if(SWM){swNew();return}pick();if(!STREAM)return;cancelAnimationFrame(RAF);gmsg("Memuat…");
+ try{await gmodel(CUR.k)}catch(e){gerr("Gagal memuat pengenal gerakan.");return}
+ gmsg("Tahan gerakanmu sebentar!");LASTT=-1;gloop()};
+var SWM=false,SD=null,SP={},DIRS=[{n:"kanan",x:1,y:0,a:"➡️"},{n:"kiri",x:-1,y:0,a:"⬅️"},{n:"atas",x:0,y:-1,a:"⬆️"},{n:"bawah",x:0,y:1,a:"⬇️"}];
+function swNew(){var d=DIRS[Math.floor(Math.random()*4)],o=AVS[Math.floor(Math.random()*AVS.length)],b=$("gsw").getBoundingClientRect(),W=b.width,H=b.height,m=8,S=56,cx=(W-S)/2,cy=(H-S)/2;
+ SD=d;SP={W:W,H:H,m:m,S:S,sx:d.x>0?m:d.x<0?W-S-m:cx,sy:d.y>0?m:d.y<0?H-S-m:cy};SP.dist=d.x?W-S-2*m:H-S-2*m;
+ var f=$("gsf");f.style.left=(d.x>0?W-48:d.x<0?8:(W-40)/2)+"px";f.style.top=(d.y>0?H-46:d.y<0?6:(H-34)/2)+"px";
+ var e=$("gso");e.textContent=o;e.style.transition="none";e.style.left=SP.sx+"px";e.style.top=SP.sy+"px";
+ $("gtt").textContent="Geser "+o+" ke "+d.n+" sampai bendera 🏁 "+d.a;$("gtb").style.width="0";gmsg("Geser objeknya dengan jarimu atau mouse!")}
+function swOn(){SWM=true;gstop();DONE=false;$("gte").style.display="none";$("gsw").style.display="block";$("gtk").style.display="none";$("gtg").textContent="📷 Coba kamera lagi";$("gtg").style.display="inline-block";swNew()}
+function swOff(){SWM=false;$("gsw").style.display="none";$("gte").style.display="";$("gtg").textContent="📷 Aktifkan kamera";pick()}
+(function(){var e=$("gso"),dn=null;
+ e.onpointerdown=function(ev){if(!SWM||DONE)return;dn={x:ev.clientX,y:ev.clientY};e.style.transition="none";e.style.cursor="grabbing";try{e.setPointerCapture(ev.pointerId)}catch(x){}};
+ e.onpointermove=function(ev){if(!dn)return;var mv=SD.x?(ev.clientX-dn.x)*SD.x:(ev.clientY-dn.y)*SD.y;mv=Math.max(0,Math.min(SP.dist,mv));
+  e.style.left=(SP.sx+(SD.x?mv*SD.x:0))+"px";e.style.top=(SP.sy+(SD.y?mv*SD.y:0))+"px";$("gtb").style.width=(mv*100/SP.dist)+"%";
+  if(mv>=SP.dist*0.92){dn=null;gopen()}};
+ function up(){if(!dn)return;dn=null;e.style.cursor="grab";e.style.transition="left .25s,top .25s";e.style.left=SP.sx+"px";e.style.top=SP.sy+"px";$("gtb").style.width="0";gmsg("Belum sampai. Geser lagi sampai bendera!","var(--or)")}
+ e.onpointerup=up;e.onpointercancel=up})();
+$("gtk").onclick=swOn;
+setTimeout(function(){if(!DONE&&!SWM)$("gtk").style.display="inline-block"},20000);
+pick();
+load();setInterval(load,30000);
+</script></body></html>
